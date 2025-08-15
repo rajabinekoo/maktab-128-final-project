@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { iranSans } from "@/utils/fonts";
+import { classes } from "@/utils/classes";
+import { AppBar } from "@/components/appbar";
 import "./globals.css";
+import { ReactQueryProvider } from "@/providers/react-query.provider";
 
 export const metadata: Metadata = {
   title: "Articleland",
@@ -13,7 +16,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning={true}>
-      <body className={`${iranSans.variable} antialiased`}>{children}</body>
+      <body
+        className={classes(
+          "bg-zinc-50 text-zinc-900 antialiased",
+          iranSans.variable
+        )}
+      >
+        <ReactQueryProvider>
+          <AppBar />
+          {children}
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }
