@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+body {
+  font-family: var(--font-iran-sans), sans-serif;
+}
