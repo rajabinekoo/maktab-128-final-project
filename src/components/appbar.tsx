@@ -7,10 +7,10 @@ import { Dialog } from "@headlessui/react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 
 const navigation = [
-  { name: "ثبت نام", href: "/signup" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
+  { name: "مقالات برتر", href: "#" },
+  { name: "مقالات جدید", href: "#" },
+  { name: "مقالات محبوب", href: "#" },
+  { name: "مقالات دنبال شونده ها", href: "#" },
 ];
 
 export const AppBar = () => {
@@ -49,8 +49,11 @@ export const AppBar = () => {
           </button>
         </div>
         <div className="hidden lg:flex">
-          <Link href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
+          <Link
+            href="/signin"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            ورود
           </Link>
         </div>
       </nav>
@@ -87,6 +90,7 @@ export const AppBar = () => {
                   <Link
                     key={item.name}
                     href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     {item.name}
@@ -95,10 +99,11 @@ export const AppBar = () => {
               </div>
               <div className="py-6">
                 <Link
-                  href="#"
+                  href="/signin"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Log in
+                  ورود
                 </Link>
               </div>
             </div>

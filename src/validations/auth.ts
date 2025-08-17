@@ -32,3 +32,17 @@ export const signupServerSchema = z.object({
 });
 
 export type signupServerSchemaType = z.infer<typeof signupServerSchema>;
+
+export const signinSchema = z.object({
+  email: z.email("ایمیل نامعتبر است"),
+  password: z.string().min(8, "باید بیشتر یا مساوی ۸ کاراکتر باشد"),
+});
+
+export type signinSchemaType = z.infer<typeof signinSchema>;
+
+export const signinServerSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8),
+});
+
+export type signinServerSchemaType = z.infer<typeof signinServerSchema>;

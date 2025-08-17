@@ -8,20 +8,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/input";
 import { Button } from "@/components/buttons";
-import { signupUserRequest } from "@/requests/users";
-import { signupSchema, signupSchemaType } from "@/validations/auth";
+import { signinUserRequest } from "@/requests/users";
+import { signinSchema, signinSchemaType } from "@/validations/auth";
 
-export default function SignupPage() {
-  const signupForm = useForm<signupSchemaType>({
-    resolver: zodResolver(signupSchema),
+export default function SigninPage() {
+  const signupForm = useForm<signinSchemaType>({
+    resolver: zodResolver(signinSchema),
   });
 
-  const registeration = useMutation({
-    mutationFn: signupUserRequest,
+  const login = useMutation({
+    mutationFn: signinUserRequest,
   });
 
-  const signup = (data: signupSchemaType) => {
-    registeration.mutate(data);
+  const signup = (data: signinSchemaType) => {
+    login.mutate(data);
   };
 
   return (
@@ -29,11 +29,11 @@ export default function SignupPage() {
       onSubmit={signupForm.handleSubmit(signup)}
       className="w-[500px] space-y-3"
     >
-      <h2 className="font-bold text-xl pb-2">ثبت نام</h2>
+      <h2 className="font-bold text-xl pb-2">ورود</h2>
       <Input
         label="ایمیل"
         placeholder="test@gmail.com"
-        disabled={registeration.isPending}
+        disabled={login.isPending}
         {...signupForm.register("email")}
         error={signupForm.formState.errors?.email?.message}
       />
@@ -41,31 +41,21 @@ export default function SignupPage() {
         label="پسورد"
         type="password"
         placeholder="****"
-        disabled={registeration.isPending}
+        disabled={login.isPending}
         {...signupForm.register("password")}
         error={signupForm.formState.errors?.password?.message}
       />
-      <Input
-        label="تکرار پسورد"
-        type="password"
-        placeholder="****"
-        disabled={registeration.isPending}
-        {...signupForm.register("rpassword")}
-        error={signupForm.formState.errors?.rpassword?.message}
-      />
-      <Button disabled={registeration.isPending} className="mt-2" type="submit">
+      <Button disabled={login.isPending} className="mt-2" type="submit">
         <div className="flex items-center gap-2 justify-center">
           <span>تایید</span>
-          {registeration.isPending && (
-            <CgSpinner className="w-6 h-6 animate-spin" />
-          )}
+          {login.isPending && <CgSpinner className="w-6 h-6 animate-spin" />}
         </div>
       </Button>
       <Link
         className="block text-center text-blue-800 font-medium hover:underline text-xs"
-        href="/signin"
+        href="/signup"
       >
-        اکانت دارم و میخواهم وارد شوم
+        اکانت ندارم و میخواهم بسازم
       </Link>
     </form>
   );
