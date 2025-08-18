@@ -1,6 +1,7 @@
 import { ZodError } from "zod";
 import { NextRequest } from "next/server";
 
+import { backendMessages } from "@/utils/messages";
 import { signinServerSchema, signinSchemaType } from "@/validations/auth";
 import { findUserByEmail, loginByCrendentials } from "@/services/users.service";
 
@@ -11,11 +12,24 @@ export async function POST(request: NextRequest) {
     body.email = body.email.toLowerCase();
     const duplicateAuthor = await findUserByEmail(body.email);
     if (!duplicateAuthor)
-      return Response.json({ message: "Not found" }, { status: 404 });
-    return Response.json(await loginByCrendentials(body), { status: 200 });
+      return Response.json(
+        { message: backendMessages.userNotFound },
+        { status: 404 }
+      );
+    const session = await loginByCrendentials(body);
+    if (!session)
+      return Response.json(
+        { message: backendMessages.userNotFound },
+        { status: 404 }
+      );
+    return Response.json(session, { status: 200 });
   } catch (error) {
     if (error instanceof ZodError)
       return Response.json({ error }, { status: 400 });
-    return Response.json({ message: "Something went wrong" }, { status: 500 });
+    console.log(error);
+    return Response.json(
+      { message: backendMessages.internalServerError },
+      { status: 500 }
+    );
   }
 }

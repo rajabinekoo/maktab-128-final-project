@@ -1,14 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { CgSpinner } from "react-icons/cg";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/input";
+import { setToken } from "@/utils/session";
 import { Button } from "@/components/buttons";
+import { appMessage } from "@/utils/messages";
 import { signinUserRequest } from "@/requests/users";
+import { extractAxiosError } from "@/utils/error-handler";
 import { signinSchema, signinSchemaType } from "@/validations/auth";
 
 export default function SigninPage() {
@@ -20,8 +24,14 @@ export default function SigninPage() {
     mutationFn: signinUserRequest,
   });
 
-  const signup = (data: signinSchemaType) => {
-    login.mutate(data);
+  const signup = async (data: signinSchemaType) => {
+    try {
+      const result = await login.mutateAsync(data);
+      setToken(result.token);
+      toast.success(appMessage.auth);
+    } catch (error) {
+      extractAxiosError(error);
+    }
   };
 
   return (

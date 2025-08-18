@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { iranSans } from "@/utils/fonts";
 import { classes } from "@/utils/classes";
 import { AppBar } from "@/components/appbar";
-import "./globals.css";
+import { ToastContainer } from 'react-toastify';
 import { ReactQueryProvider } from "@/providers/react-query.provider";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Articleland",
@@ -23,6 +24,7 @@ export default function RootLayout({
         )}
       >
         <ReactQueryProvider>
+          <ToastContainer position="top-left" />
           <AppBar />
           {children}
         </ReactQueryProvider>

@@ -15,3 +15,10 @@ export const signinUserRequest: signin = async (data) => {
   const newAuthor = await client.post(urls.auth.signin, data);
   return newAuthor.data;
 };
+
+type userInfo = () => Promise<IUser>;
+export const getUserInfo: userInfo = async () => {
+  const client = generateAxiosInstance();
+  const newAuthor = await client.get(urls.user.info);
+  return newAuthor.data;
+};

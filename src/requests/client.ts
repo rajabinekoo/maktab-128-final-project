@@ -1,7 +1,9 @@
 "use client";
 
 import axios from "axios";
+import { getToken } from "@/utils/session";
 
 export const generateAxiosInstance = () => {
-  return axios.create();
+  const token = getToken();
+  return axios.create({ headers: { Authorization: `Bearer ${token}` } });
 };
