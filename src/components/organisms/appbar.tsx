@@ -6,9 +6,8 @@ import Link from "next/link";
 import { Dialog } from "@headlessui/react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 
-import { ProfileAvatar } from "../atoms/avatar";
 import { useAppSelector } from "@/hooks/redux.hook";
-import { GradientAvatar } from "../atoms/gradient-avatar";
+import { ProfileDropdown } from "../molecules/profile-dropdown";
 
 const navigation = [
   { name: "مقالات برتر", href: "#" },
@@ -61,10 +60,8 @@ export const AppBar = () => {
             >
               ورود
             </Link>
-          ) : !!info.avatar ? (
-            <ProfileAvatar src={info.avatar} />
           ) : (
-            <GradientAvatar email={info.email} />
+            <ProfileDropdown email={info.email} avatar={info.avatar} />
           )}
         </div>
       </nav>

@@ -1,18 +1,16 @@
+"use client";
+
+import { useAppSelector } from "@/hooks/redux.hook";
 import { AuthGuard } from "@/providers/auth-guard.provider";
-import Link from "next/link";
 
 export default function Profile() {
+  const info = useAppSelector((state) => state.userInfo?.info);
+
   return (
     <AuthGuard>
       <div>
-        <Link href="/editProfile">
-          <button>Edit profile</button>
-        </Link>
-      </div>
-      <div>
-        <Link href="/newArticle">
-          <button>New Article</button>
-        </Link>
+        <p>ایمیل: {info?.email}</p>
+        <p>نام کاربری: {info?.name}</p>
       </div>
     </AuthGuard>
   );

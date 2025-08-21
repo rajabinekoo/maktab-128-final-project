@@ -1,6 +1,7 @@
 export const appMessage = {
   auth: "به سیستم وارد شدید",
-  updateProfile: "پروفایل کاربری با موفقیت به روز شد"
+  signout: "شما از حساب کاربری خود خارج شدید",
+  updateProfile: "پروفایل کاربری با موفقیت به روز شد",
 };
 
 export const backendMessages = {
