@@ -1,9 +1,13 @@
 import { ZodError } from "zod";
 import { NextRequest } from "next/server";
 
-import { signupServerSchema, signupSchemaType } from "@/validations/auth";
-import { findUserByEmail, loginByCrendentials } from "@/services/users.service";
 import { backendMessages } from "@/utils/messages";
+import { signupServerSchema, signupSchemaType } from "@/validations/auth";
+import {
+  addUser,
+  findUserByEmail,
+  loginByCrendentials,
+} from "@/services/users.service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +20,7 @@ export async function POST(request: NextRequest) {
         { message: backendMessages.userDuplication },
         { status: 409 }
       );
+    await addUser(body);
     const session = await loginByCrendentials(body);
     if (!session)
       return Response.json(

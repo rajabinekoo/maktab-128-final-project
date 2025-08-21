@@ -5,5 +5,6 @@ export const urls = {
   },
   user: {
     info: "/apis/user",
+    update: "/apis/user",
   },
 };

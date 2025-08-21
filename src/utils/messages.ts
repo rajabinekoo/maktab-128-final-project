@@ -1,5 +1,6 @@
 export const appMessage = {
   auth: "به سیستم وارد شدید",
+  updateProfile: "پروفایل کاربری با موفقیت به روز شد"
 };
 
 export const backendMessages = {

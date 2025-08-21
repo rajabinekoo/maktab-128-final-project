@@ -6,6 +6,10 @@ import Link from "next/link";
 import { Dialog } from "@headlessui/react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 
+import { ProfileAvatar } from "../atoms/avatar";
+import { useAppSelector } from "@/hooks/redux.hook";
+import { GradientAvatar } from "../atoms/gradient-avatar";
+
 const navigation = [
   { name: "مقالات برتر", href: "#" },
   { name: "مقالات جدید", href: "#" },
@@ -14,6 +18,7 @@ const navigation = [
 ];
 
 export const AppBar = () => {
+  const { isLoading, info } = useAppSelector((state) => state.userInfo);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -23,7 +28,7 @@ export const AppBar = () => {
         aria-label="Global"
       >
         <div className="flex items-center gap-x-12">
-          <Link href="/" className="-m-1.5 p-1.5">
+          <Link href="/public" className="-m-1.5 p-1.5">
             <img className="h-16 w-auto" src="/logo.svg" alt="logo" />
           </Link>
           <div className="hidden lg:flex lg:gap-x-12">
@@ -49,12 +54,18 @@ export const AppBar = () => {
           </button>
         </div>
         <div className="hidden lg:flex">
-          <Link
-            href="/signin"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            ورود
-          </Link>
+          {isLoading || !info ? (
+            <Link
+              href="/signin"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              ورود
+            </Link>
+          ) : !!info.avatar ? (
+            <ProfileAvatar src={info.avatar} />
+          ) : (
+            <GradientAvatar email={info.email} />
+          )}
         </div>
       </nav>
       <Dialog

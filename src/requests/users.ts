@@ -22,3 +22,10 @@ export const getUserInfo: userInfo = async () => {
   const newAuthor = await client.get(urls.user.info);
   return newAuthor.data;
 };
+
+type updateProfile = (_: FormData) => Promise<void>;
+export const updateProfile: updateProfile = async (data) => {
+  const client = generateAxiosInstance();
+  const newAuthor = await client.put(urls.user.update, data);
+  return newAuthor.data;
+};
