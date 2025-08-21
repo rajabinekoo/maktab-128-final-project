@@ -23,7 +23,9 @@ export const userInfoSlice = createSlice({
       }
     },
     logout: (state) => {
-      state = initialState;
+      state.avatar = "";
+      state.info = undefined;
+      state.isLoading = false;
       delToken();
     },
   },
