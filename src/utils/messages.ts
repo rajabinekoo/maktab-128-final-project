@@ -1,8 +1,10 @@
 export const appMessage = {
   auth: "به سیستم وارد شدید",
+  createArticle: "مقاله با موفقیت ایجاد شد",
   expiration: "نشست شما منقضی شده است",
   signout: "شما از حساب کاربری خود خارج شدید",
   updateProfile: "پروفایل کاربری با موفقیت به روز شد",
+  invalidArticleBody: "بدنه مقاله باید حداقل شامل ۲۰۰ کاراکتر باشد",
 };
 
 export const backendMessages = {
