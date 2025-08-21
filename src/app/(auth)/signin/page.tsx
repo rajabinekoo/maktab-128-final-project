@@ -4,18 +4,20 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { CgSpinner } from "react-icons/cg";
+import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "@/components/input";
 import { setToken } from "@/utils/session";
-import { Button } from "@/components/buttons";
 import { appMessage } from "@/utils/messages";
+import { Input } from "@/components/molecules/input";
 import { signinUserRequest } from "@/requests/users";
+import { Button } from "@/components/molecules/buttons";
 import { extractAxiosError } from "@/utils/error-handler";
 import { signinSchema, signinSchemaType } from "@/validations/auth";
 
 export default function SigninPage() {
+  const { push } = useRouter();
   const signupForm = useForm<signinSchemaType>({
     resolver: zodResolver(signinSchema),
   });
@@ -29,6 +31,7 @@ export default function SigninPage() {
       const result = await login.mutateAsync(data);
       setToken(result.token);
       toast.success(appMessage.auth);
+      push("/profile");
     } catch (error) {
       extractAxiosError(error);
     }

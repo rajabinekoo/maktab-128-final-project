@@ -1,6 +1,6 @@
 import z from "zod";
 
-const passwdRegex =
+export const passwdRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/g;
 
 export const signupSchema = z
@@ -10,7 +10,7 @@ export const signupSchema = z
       .string()
       .regex(
         passwdRegex,
-        "باید بیشتر یا مساوی ۸ کاراکتر باشد و شامل عدد، کاراکتر های ویژه، حرف کوچک و بزرگ باشد"
+        "باید بیشتر یا مساوی ۸ کاراکتر باشد و شامل عدد، کاراکتر های ویژه، حرف کوچک و بزرگ باشد",
       ),
     rpassword: z.string().min(8, "باید بیشتر یا مساوری ۸ کاراکتر باشد"),
   })

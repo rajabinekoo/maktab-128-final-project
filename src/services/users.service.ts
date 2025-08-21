@@ -1,4 +1,8 @@
 import { database } from "./database";
+import {
+  changePasswordServerSchemaType,
+  updateProfileSchemaType,
+} from "@/validations/user";
 import { signinSchemaType, signupSchemaType } from "@/validations/auth";
 
 export const addUser = async (data: signupSchemaType) => {
@@ -36,6 +40,38 @@ export const getUserInfo = async (token: string) => {
   try {
     pb.authStore.save(token, null);
     return await pb.collection("users").authRefresh();
+  } catch {
+    return undefined;
+  }
+};
+
+export const updateUserNameAndAvatar = async (
+  userId: string,
+  data: updateProfileSchemaType
+) => {
+  const pb = await database.getPocketbaseClient();
+  try {
+    if (!data.name) delete data.name;
+    if (!data.avatar) delete data.avatar;
+    return Boolean(await pb.collection("users").update(userId, data));
+  } catch {
+    return undefined;
+  }
+};
+
+export const updatePassword = async (
+  userId: string,
+  data: changePasswordServerSchemaType
+) => {
+  const pb = await database.getPocketbaseClient();
+  try {
+    return Boolean(
+      await pb.collection("users").update(userId, {
+        oldPassword: data.opassword,
+        password: data.password,
+        passwordConfirm: data.password,
+      })
+    );
   } catch {
     return undefined;
   }

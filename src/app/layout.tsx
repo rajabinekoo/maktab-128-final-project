@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { ToastContainer } from "react-toastify";
+
 import { iranSans } from "@/utils/fonts";
 import { classes } from "@/utils/classes";
-import { AppBar } from "@/components/appbar";
-import { ToastContainer } from 'react-toastify';
+import { AppBar } from "@/components/organisms/appbar";
+import { ReduxProvider } from "@/providers/redux.provider";
 import { ReactQueryProvider } from "@/providers/react-query.provider";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,11 +26,13 @@ export default function RootLayout({
           iranSans.variable
         )}
       >
-        <ReactQueryProvider>
-          <ToastContainer position="top-left" />
-          <AppBar />
-          {children}
-        </ReactQueryProvider>
+        <ReduxProvider>
+          <ReactQueryProvider>
+            <ToastContainer position="top-left" />
+            <AppBar />
+            {children}
+          </ReactQueryProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
