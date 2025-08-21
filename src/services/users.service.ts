@@ -1,5 +1,8 @@
 import { database } from "./database";
-import { updateProfileSchemaType } from "@/validations/user";
+import {
+  changePasswordServerSchemaType,
+  updateProfileSchemaType,
+} from "@/validations/user";
 import { signinSchemaType, signupSchemaType } from "@/validations/auth";
 
 export const addUser = async (data: signupSchemaType) => {
@@ -50,7 +53,25 @@ export const updateUserNameAndAvatar = async (
   try {
     if (!data.name) delete data.name;
     if (!data.avatar) delete data.avatar;
-    return await pb.collection("users").update(userId, data);
+    return Boolean(await pb.collection("users").update(userId, data));
+  } catch {
+    return undefined;
+  }
+};
+
+export const updatePassword = async (
+  userId: string,
+  data: changePasswordServerSchemaType
+) => {
+  const pb = await database.getPocketbaseClient();
+  try {
+    return Boolean(
+      await pb.collection("users").update(userId, {
+        oldPassword: data.opassword,
+        password: data.password,
+        passwordConfirm: data.password,
+      })
+    );
   } catch {
     return undefined;
   }

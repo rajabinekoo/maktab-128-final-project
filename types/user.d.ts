@@ -11,3 +11,8 @@ interface IUserInfoSlice {
   avatar?: string;
   isLoading: boolean;
 }
+
+interface IChangePasswordDto {
+  password?: string;
+  opassword?: string;
+}

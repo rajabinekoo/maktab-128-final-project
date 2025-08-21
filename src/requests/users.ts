@@ -26,6 +26,11 @@ export const getUserInfo: userInfo = async () => {
 type updateProfile = (_: FormData) => Promise<void>;
 export const updateProfile: updateProfile = async (data) => {
   const client = generateAxiosInstance();
-  const newAuthor = await client.put(urls.user.update, data);
-  return newAuthor.data;
+  await client.put(urls.user.update, data);
+};
+
+type editPassword = (_: IChangePasswordDto) => Promise<void>;
+export const editPassword: editPassword = async (data) => {
+  const client = generateAxiosInstance();
+  await client.patch(urls.user.changePassword, data);
 };

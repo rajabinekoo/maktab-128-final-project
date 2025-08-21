@@ -56,7 +56,7 @@ export const ProfileDropdown: React.FC<IProfileDrowpdownProps> = ({
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link href="/editProfile" className="block py-1 px-1">
+          <Link href="/settings" className="block py-1 px-1">
             <button className={rowClassName}>تنظیمات </button>
           </Link>
         </MenuItem>
