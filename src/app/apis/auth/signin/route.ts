@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
     const body: signinSchemaType = await request.json();
     signinServerSchema.parse(body);
     body.email = body.email.toLowerCase();
-    const duplicateAuthor = await findUserByEmail(body.email);
-    if (!duplicateAuthor)
+    const user = await findUserByEmail(body.email);
+    if (!user)
       return Response.json(
         { message: backendMessages.userNotFound },
         { status: 404 }

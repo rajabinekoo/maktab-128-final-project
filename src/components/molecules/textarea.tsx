@@ -1,22 +1,21 @@
 "use client";
 
 import { classes } from "@/utils/classes";
-import { DetailedHTMLProps, InputHTMLAttributes, useId } from "react";
+import { DetailedHTMLProps, TextareaHTMLAttributes, useId } from "react";
 
 interface IInputProps
   extends DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
+    TextareaHTMLAttributes<HTMLTextAreaElement>,
+    HTMLTextAreaElement
   > {
   error?: string;
   label?: string;
 }
 
-export const Input: React.FC<IInputProps> = ({
+export const Textarea: React.FC<IInputProps> = ({
   className,
   error,
   label,
-  type = "text",
   ...props
 }) => {
   const id = useId();
@@ -28,9 +27,9 @@ export const Input: React.FC<IInputProps> = ({
           {label}
         </label>
       )}
-      <input
+      <textarea
         id={id}
-        type={type}
+        rows={2}
         className={classes(
           "border rounded-lg px-2 py-1 w-full disabled:bg-gray-50",
           !!error ? "border-red-300" : "border-zinc-300",

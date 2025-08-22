@@ -14,7 +14,7 @@ import { useAppSelector } from "@/hooks/redux.hook";
 import { Input } from "@/components/molecules/input";
 import { Button } from "@/components/molecules/buttons";
 import { extractAxiosError } from "@/utils/error-handler";
-import { AvatarInput } from "@/components/molecules/avatar-input";
+import { ImageInput } from "@/components/molecules/image-input";
 import {
   updateProfileSchema,
   updateProfileSchemaType,
@@ -54,7 +54,7 @@ export const EditProfile: React.FC = () => {
       onSubmit={form.handleSubmit(submit)}
       className="gap-y-3 grid grid-cols-1 w-full"
     >
-      <AvatarInput
+      <ImageInput
         name="avatar"
         preview={avatar}
         control={form.control}

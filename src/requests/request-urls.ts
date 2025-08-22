@@ -8,4 +8,8 @@ export const urls = {
     update: "/apis/user",
     changePassword: "/apis/user",
   },
+  article: {
+    create: "/apis/article",
+    publishToggle: (id: string) => `/apis/article/${id}`,
+  },
 };

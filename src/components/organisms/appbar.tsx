@@ -1,24 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { Dialog } from "@headlessui/react";
+import { useRouter } from "next/navigation";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 
-import { useAppSelector } from "@/hooks/redux.hook";
+import { appMessage } from "@/utils/messages";
+import { userInfoActions } from "@/redux/user-info.slice";
 import { ProfileDropdown } from "../molecules/profile-dropdown";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 
-const navigation = [
+const navigation: Array<Omit<IMenuItem, "href"> & { href: string }> = [
   { name: "مقالات برتر", href: "#" },
   { name: "مقالات جدید", href: "#" },
-  { name: "مقالات محبوب", href: "#" },
+  { name: "مقالات محبوب شما", href: "#" },
   { name: "مقالات دنبال شونده ها", href: "#" },
 ];
+
+const mobileSidebarButtonsMenu =
+  "w-full cursor-pointer -mx-3 block rounded-lg px-3 py-2.5 text-right text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50";
 
 export const AppBar = () => {
   const { isLoading, info } = useAppSelector((state) => state.userInfo);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { push } = useRouter();
+
+  const profileNavigation: Array<IMenuItem> = useMemo(() => {
+    return [
+      { name: "پروفایل", href: "/profile" },
+      { name: "ایجاد مقاله", href: "/newArticle" },
+      { name: "تنظیمات", href: "/settings" },
+      {
+        name: "خروج از حساب",
+        onClick: () => {
+          setMobileMenuOpen(false);
+          dispatch(userInfoActions.logout());
+          push("/signin");
+          toast.info(appMessage.signout);
+        },
+      },
+    ];
+  }, []);
 
   return (
     <header className="bg-zinc-50">
@@ -27,7 +53,7 @@ export const AppBar = () => {
         aria-label="Global"
       >
         <div className="flex items-center gap-x-12">
-          <Link href="/public" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <img className="h-16 w-auto" src="/logo.svg" alt="logo" />
           </Link>
           <div className="hidden lg:flex lg:gap-x-12">
@@ -61,7 +87,11 @@ export const AppBar = () => {
               ورود
             </Link>
           ) : (
-            <ProfileDropdown email={info.email} avatar={info.avatar} />
+            <ProfileDropdown
+              items={profileNavigation}
+              email={info.email}
+              avatar={info.avatar}
+            />
           )}
         </div>
       </nav>
@@ -74,13 +104,8 @@ export const AppBar = () => {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+            <Link href="/" className="-m-1.5 p-1.5">
+              <img className="h-16 w-auto" src="/logo.svg" alt="logo" />
             </Link>
             <button
               type="button"
@@ -106,13 +131,46 @@ export const AppBar = () => {
                 ))}
               </div>
               <div className="py-6">
-                <Link
-                  href="/signin"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  ورود
-                </Link>
+                {isLoading || !info ? (
+                  <Link
+                    href="/signin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={mobileSidebarButtonsMenu}
+                  >
+                    ورود
+                  </Link>
+                ) : (
+                  <>
+                    {profileNavigation.map((el) =>
+                      !!el.href ? (
+                        <div key={el.name}>
+                          <Link
+                            onClick={() => setMobileMenuOpen(false)}
+                            href={el.href}
+                            className="block py-1 px-1"
+                          >
+                            <button className={mobileSidebarButtonsMenu}>
+                              {el.name}
+                            </button>
+                          </Link>
+                        </div>
+                      ) : !!el.onClick ? (
+                        <div key={el.name}>
+                          <div className="py-1 px-1">
+                            <button
+                              onClick={el.onClick}
+                              className={mobileSidebarButtonsMenu}
+                            >
+                              {el.name}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useContext } from "react";
 import dynamic from "next/dynamic";
+import { EditorProviderContext } from "@/providers/editor.provider";
 
 const Editor = dynamic(
   () => import("@tinymce/tinymce-react").then((module) => module.Editor),
@@ -9,16 +10,14 @@ const Editor = dynamic(
 );
 
 export const TextEditor: React.FC = () => {
-  const editorRef = useRef(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-  // const c = (editorRef.current as any).getContent();
+  const { setValue } = useContext(EditorProviderContext);
 
   return (
     <>
       <Editor
         apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-        onInit={(_evt, editor) => (editorRef.current = editor)}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        initialValue="<p>متن مورد نظر را وارد کنید</p>"
+        onEditorChange={(text) => setValue(text)}
         init={{
           height: 500,
           menubar: false,
@@ -63,7 +62,6 @@ export const TextEditor: React.FC = () => {
             font-weight: 400;
           }
 
-          /* Optional: جهت جلوگیری از FOUT */
           p, h1, h2, h3, h4, h5, h6, li, span {
             font-family: 'IRANSans', sans-serif;
           }`,

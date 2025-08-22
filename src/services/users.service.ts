@@ -1,9 +1,9 @@
 import { database } from "./database";
-import {
-  changePasswordServerSchemaType,
-  updateProfileSchemaType,
-} from "@/validations/user";
 import { signinSchemaType, signupSchemaType } from "@/validations/auth";
+import {
+  updateProfileSchemaType,
+  changePasswordServerSchemaType,
+} from "@/validations/user";
 
 export const addUser = async (data: signupSchemaType) => {
   const pb = await database.getPocketbaseClient();

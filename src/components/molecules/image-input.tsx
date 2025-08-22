@@ -7,14 +7,17 @@ import { useController, type Control } from "react-hook-form";
 
 import { classes } from "@/utils/classes";
 
+/* eslint-disable */
+// @ts-nocheck
 interface IAvatarInputProps {
   control: Control<any>;
   disabled?: boolean;
   preview?: string;
   name: string;
 }
+/* eslint-enable */
 
-export const AvatarInput: React.FC<IAvatarInputProps> = ({
+export const ImageInput: React.FC<IAvatarInputProps> = ({
   name,
   control,
   preview,
