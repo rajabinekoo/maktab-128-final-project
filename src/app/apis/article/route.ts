@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 
 import { backendMessages } from "@/utils/messages";
 import { authorization } from "@/services/authorization";
-import { addNewArticle } from "@/services/article.service";
+import { addNewArticle, findArticleByTitle } from "@/services/article.service";
 import { newArticleSchema, newArticleSchemaType } from "@/validations/article";
 
 export async function POST(request: NextRequest) {
@@ -17,11 +17,25 @@ export async function POST(request: NextRequest) {
     }
     const formdata = await request.formData();
     const fields: newArticleSchemaType = {
-      title: formdata.get("title") as string,
-      description: formdata.get("description") as string,
+      thumbnail: formdata.get("thumbnail") as File,
+      title: (formdata.get("title") as string)?.trim?.()?.toLowerCase?.(),
+      description: (formdata.get("description") as string)
+        ?.trim?.()
+        ?.toLowerCase?.(),
     };
     newArticleSchema.parse(fields);
-    await addNewArticle(fields, formdata.get("body") as File);
+    const duplication = await findArticleByTitle(fields.title);
+    if (!!duplication)
+      return Response.json(
+        { message: backendMessages.articleDuplication },
+        { status: 409 }
+      );
+    await addNewArticle(
+      user.record.id,
+      fields,
+      formdata.get("body") as File,
+      formdata.get("thumbnail") as File
+    );
     return Response.json({ message: "created" }, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError)

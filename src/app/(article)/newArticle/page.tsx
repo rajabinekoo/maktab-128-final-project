@@ -5,13 +5,13 @@ import { useContext } from "react";
 import { Modal } from "@/components/molecules/modal";
 import { Button } from "@/components/molecules/buttons";
 import { AuthGuard } from "@/providers/auth-guard.provider";
+import { EditorProvider } from "@/providers/editor.provider";
 import { TextEditor } from "@/components/molecules/text-editor";
+import { NewArticle } from "@/components/organisms/new-article";
 import {
   ModalProvider,
   ModalProviderContext,
 } from "@/providers/modal.provider";
-import { EditorProvider } from "@/providers/editor.provider";
-import { NewArticle } from "@/components/organisms/new-article";
 
 const Head: React.FC = () => {
   const { setOpen } = useContext(ModalProviderContext);

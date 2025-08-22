@@ -1,5 +1,8 @@
 @import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../../.flowbite-react/class-list.json";
 
 body {
   font-family: var(--font-iran-sans), sans-serif;
 }
+

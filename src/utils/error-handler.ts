@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { appMessage, systemMessages } from "./messages";
 import { delToken } from "./session";
 
-export const extractAxiosError = (error: any) => {
+export const extractAxiosError = (error: unknown) => {
   if (error instanceof AxiosError) {
     const status = !!error.response?.status
       ? Number(error.response?.status)

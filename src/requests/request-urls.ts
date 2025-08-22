@@ -10,5 +10,6 @@ export const urls = {
   },
   article: {
     create: "/apis/article",
+    publishToggle: (id: string) => `/apis/article/${id}`,
   },
 };
